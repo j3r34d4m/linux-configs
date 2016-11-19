@@ -1,0 +1,51 @@
+#!/bin/sh
+# 
+# courtesy: https://gitlab.com/snippets/24417
+# 
+# Enable port forwarding
+# 
+# Requirements:
+#   your Private Internet Access user and password as arguments
+#   awk, curl
+# 
+# Usage:
+#  ./port_forward.sh [settings file] [interface] [client_id] [username] [password]
+# 
+# The settings file should be a shell script assigning one or more of the
+# if, client_id, user, and pass variables
+# 
+# or edit assignments directly below...
+# 
+# client_id must remain the same to get the same port, otherwise it will change
+
+[ -f "$1" ] && . "$1" && shift
+
+if="${1:-tun0}"
+client_id="${2:-client_id_here}"
+user="${3:-pia_username_here}"
+pass="${4:-pia_password_here}"
+
+# To generate a client_id:
+# client_id=`head -n 100 /dev/urandom | md5sum | tr -d " -"
+
+case $(uname) in
+  Linux)
+    local_ip=$(ip addr show dev tun0 | awk '/inet / {print $2}') ;;
+  Darwin)
+    local_ip=$(ifconfig utun1 | awk '/inet/ {print $2}') ;;
+esac
+
+if [ -n "$local_ip" ]; then
+  echo "interface: $if has local_ip: $local_ip"
+else
+  echo "Couldn't figure out how to find the IP address of interface $if"
+fi
+
+post_data="user=$user&pass=$pass&client_id=$client_id&local_ip=$local_ip"
+url='https://www.privateinternetaccess.com/vpninfo/port_forward_assignment'
+
+# echo "url: $url"
+# echo "post_data: $post_data"
+echo 'Requesting port forward assignment...'
+curl --interface $if -d "$post_data" "$url"
+echo
