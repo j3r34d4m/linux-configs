@@ -1,3 +1,5 @@
 alias xflux='./xflux -z <zip code>'
 alias rsynccopy="rsync --partial --progress --append --rsh=ssh -r -h "
 alias rsyncmove="rsync --partial --progress --append --rsh=ssh -r -h --remove-sent-files"
+
+alias ll='ls -alp --color=auto'
