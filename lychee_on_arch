@@ -1,0 +1,15 @@
+packer lychee
+packer apache
+packer php-apache
+packer mariadb
+sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+sudo systemctl start mariadb
+/usr/bin/mysql_secure_installation
+  yes set root password
+  yes remove anon users
+  yes disallow remote root login
+  yes remove test db and access
+  yes reload privilege tables
+
+
+
