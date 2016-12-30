@@ -1,22 +1,24 @@
+## UBUNTU LXD HOST MACHINE
 lxc launch images:archlinux/amd64 <container name>
-
 lxc exec <container name> -- /bin/bash
 
 useradd -m <user name>
 passwd <user name>
+groupadd sudo
+usermod -G sudo <user name>
+
 pacman -S sudo openssh vim wget git expac jshon binutils fakeroot
 EDITOR=vim visudo
   ## Uncomment to allow members of group sudo to execute any command
   # %sudo	ALL=(ALL) ALL
-
-groupadd sudo
-usermod -G sudo <user name>
 
 vim /etc/ssh/sshd_config
   #Port 22
   #PermitRootLogin prohibit-password
   #PubkeyAuthentication yes
 
+## LOG OUT OF UBUNTU LXD HOST MACHINE
+## LOGIN AS USER CREATED ABOVE FROM OTHER
 <login as user created above>
 
 cd && mkdir packer && cd packer
