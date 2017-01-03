@@ -11,5 +11,8 @@ sudo systemctl start mariadb
   yes remove test db and access
   yes reload privilege tables
 
+https://wiki.archlinux.org/index.php/PHP#MySQL.2FMariaDB
 
+https://wiki.archlinux.org/index.php/Apache_HTTP_Server#PHP
 
+https://github.com/electerious/Lychee/blob/master/docs/Installation.md
